@@ -7,6 +7,7 @@ namespace Sumo.GamePlay
     {
         [SerializeField] private int force;
         [SerializeField] private int tiltAngle;
+        [SerializeField] private Transform visualObjectTransform;
         
         private Rigidbody _rigidbody;
         private Transform _transform;
@@ -29,20 +30,53 @@ namespace Sumo.GamePlay
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.TryGetComponent(out HitController hitController))
+            HitController otherHitController = collision.gameObject.GetComponent<HitController>();
+
+            if (otherHitController != null)
             {
-                _direction = _transform.position - hitController.transform.position;
-                _direction.Normalize();
+                Vector3 myDirection = collision.transform.position - transform.position;
+                Vector3 otherDirection = transform.position - collision.transform.position;
+                myDirection.Normalize();
+                otherDirection.Normalize();
 
-                _rigidbody.velocity = Vector3.zero;
+                float damage = otherHitController.GetTrueForce(otherDirection);
 
-                float dotProduct = Vector3.Dot(_direction, _transform.forward);
-                float multiplier = (dotProduct < -0.5f) ? 1f : 2f;
+                if (Vector3.Dot(myDirection, transform.forward) > 0.9f) // Çarpışmaya önümle girdim
+                {
+                    // 
+                }
+                else if (Vector3.Dot(myDirection, transform.forward) < -0.9f) // Çarpışmaya arkamla giridm
+                {
+                    damage *= 4;
+                }
+                else // Çarpışma yanlarda 
+                {
+                    if (Vector3.Dot(myDirection, transform.forward) <= -0.5) // Çarpışmaya arka yanımla girdim
+                    {
+                        damage *= 2;
+                    }
+                    else if (Vector3.Dot(myDirection, transform.forward) > -0.5) // Çarpışmaya ön yanımla girdim
+                    { 
+                        // 1
+                    }
+                }
+
+                // Burada hesaplamalar sonucunda hasar alıcam
                 
-                _rigidbody.AddForce(_direction * hitController.Force * multiplier, ForceMode.Impulse);
-
-                StartCoroutine(OnHitController());
+                _rigidbody.AddForce(-myDirection * damage, ForceMode.Impulse);
             }
+        }
+
+        public float GetTrueForce(Vector3 direction)
+        {
+            float multiplierForce = force;
+            
+            if (Vector3.Dot(direction, transform.forward) > 0.9f) // Çarpışmaya önümle girdim
+            {
+                multiplierForce *= 2;
+            }
+
+            return multiplierForce;
         }
 
         private IEnumerator OnHitController()
@@ -51,11 +85,11 @@ namespace Sumo.GamePlay
             
             _rotationAxis = new Vector3(_direction.z, 0f, -_direction.x);
             Quaternion rotation = Quaternion.AngleAxis(tiltAngle, _rotationAxis);
-            _transform.rotation *= rotation;
+            visualObjectTransform.rotation *= rotation;
 
             yield return new WaitForSeconds(.5f);
 
-            _transform.rotation = Quaternion.Euler(Vector3.zero);
+            visualObjectTransform.rotation = Quaternion.Euler(Vector3.zero);
 
             OnHit = false;
         }

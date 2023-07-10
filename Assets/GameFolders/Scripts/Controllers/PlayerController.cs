@@ -14,6 +14,7 @@ namespace Sumo.Player
 
         private float _horizontal;
         private float _vertical;
+        private Vector3 _direction;
 
         private void Awake()
         {
@@ -25,16 +26,20 @@ namespace Sumo.Player
         {
             if (_hitController.OnHit) return;
 
-            _movement = new Vector3(_horizontal, 0f, _vertical);
-            _movement *= moveSpeed;
-            
-            _rigidbody.velocity = new Vector3(_movement.x, _rigidbody.velocity.y, _movement.z);
+            _rigidbody.velocity = transform.forward * moveSpeed;
         }
 
         private void Update()
         {
-            _horizontal = Input.GetAxis("Horizontal");
-            _vertical = Input.GetAxis("Vertical");
+            _horizontal = JoystickInput.Instance.GetHorizontal();
+            _vertical = JoystickInput.Instance.GetVertical();
+
+            if (Mathf.Abs(_horizontal) + Mathf.Abs(_vertical) > 0.05f)
+            {
+                _direction = new Vector3(_horizontal, 0f, _vertical);
+            }
+
+            transform.forward = Vector3.Lerp(transform.forward, _direction, turnSpeed * Time.deltaTime);
         }
     }
 }
