@@ -46,8 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab8a2089b046e354bbf18e6d34bbbb1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  foodPower: 5
-  scaleCoefficient: 1.5
+  visualObject: {fileID: 1966331653117420438}
 --- !u!135 &12638731113475035
 SphereCollider:
   m_ObjectHideFlags: 0

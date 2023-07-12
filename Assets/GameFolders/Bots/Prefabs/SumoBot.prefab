@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 2045159365876209617}
   - component: {fileID: 2045159365876209620}
   - component: {fileID: 2045159365876209621}
-  m_Layer: 0
+  - component: {fileID: 3998394808191986586}
+  m_Layer: 10
   m_Name: SumoBot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -60,9 +61,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b40fbc1414ea3364c8b12680e03be5ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  force: 5
+  data: {fileID: 11400000, guid: 2c6f812bc841049fb832335d7bb5dd1b, type: 2}
   tiltAngle: 30
-  visualObjectTransform: {fileID: 0}
+  visualObjectTransform: {fileID: 2045159367636444219}
   OnHit: 0
 --- !u!54 &2045159365876209620
 Rigidbody:
@@ -78,7 +79,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 84
   m_CollisionDetection: 0
 --- !u!136 &2045159365876209621
 CapsuleCollider:
@@ -94,6 +95,26 @@ CapsuleCollider:
   m_Height: 2.1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3998394808191986586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2045159365876209622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fd69c539b8a849d6ab7dacfe79a1ff1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5
+  turnSpeed: 15
+  outDistance: 15
+  maxTargetDistance: 10
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 3584
+  searchTime: 0.1
 --- !u!1 &2045159367636444220
 GameObject:
   m_ObjectHideFlags: 0
@@ -105,7 +126,7 @@ GameObject:
   - component: {fileID: 2045159367636444219}
   - component: {fileID: 2045159367636444217}
   - component: {fileID: 2045159367636444218}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -189,7 +210,7 @@ GameObject:
   - component: {fileID: 3133784800405183256}
   - component: {fileID: 4881815628566133000}
   - component: {fileID: 4583131977465815344}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: w
   m_TagString: Untagged
   m_Icon: {fileID: 0}

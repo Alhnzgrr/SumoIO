@@ -1,24 +1,30 @@
-using System;
 using System.Collections.Generic;
-using GameFolders.Scripts.Controllers;
+using Sumo.GamePlay;
 using Sumo.Interface;
 using UnityEngine;
 
-namespace Sumo.Player
+namespace Sumo.AI
 {
-    public class PlayerController : MonoBehaviour, ITrigger
+    public class AIController : MonoBehaviour, ITrigger
     {
+        private HitController _hitController;
+        private Rigidbody _rigidbody;
+
         private readonly List<ITriggerAction> _iTriggerActions = new List<ITriggerAction>();
 
         private void Awake()
         {
+            _hitController = GetComponent<HitController>();
+            _rigidbody = GetComponent<Rigidbody>();
             _iTriggerActions.AddRange(GetComponents<ITriggerAction>());
             _iTriggerActions.AddRange(GetComponentsInChildren<ITriggerAction>());
         }
 
-        private void Start()
+        private void FixedUpdate()
         {
-            if (Camera.main != null) Camera.main.GetComponent<CameraController>().AssignTarget(transform);
+            if (_hitController.OnHit) return;
+
+            _rigidbody.velocity = new Vector3(0f, 0f, 0f);
         }
 
         public void OnTrigger()

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5fa4d17ed3c041bfbfb74b068a4760c, type: 3}
+  m_Name: AIHitData
+  m_EditorClassIdentifier: 
+  startPower: 5
+  powerIncreaseCoefficient: 3
+  scoreIncreaseCoefficient: 10
+  scaleIncreaseCoefficient: 0.25
+  sideBackMultiplier: 2
+  frontMultiplier: 2
+  backMultiplier: 4

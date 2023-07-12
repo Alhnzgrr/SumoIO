@@ -1,11 +1,14 @@
+using System;
 using System.Collections;
+using Sumo.Data;
+using Sumo.Interface;
 using UnityEngine;
 
 namespace Sumo.GamePlay
 {
-    public class HitController : MonoBehaviour
+    public class HitController : MonoBehaviour, ITriggerAction
     {
-        [SerializeField] private int force;
+        [SerializeField] private HitData data;
         [SerializeField] private int tiltAngle;
         [SerializeField] private Transform visualObjectTransform;
         
@@ -14,10 +17,12 @@ namespace Sumo.GamePlay
         private Vector3 _direction;
         private Vector3 _rotationAxis;
 
-        public int Force
+        private float _power;
+        
+        public float Power
         {
-            get => force;
-            set => force = value;
+            get => _power;
+            set => _power = value;
         }
 
         public bool OnHit;
@@ -26,6 +31,11 @@ namespace Sumo.GamePlay
         {
             _rigidbody = GetComponent<Rigidbody>();
             _transform = GetComponent<Transform>();
+        }
+
+        private void Start()
+        {
+            _power = data.StartPower;
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -47,13 +57,13 @@ namespace Sumo.GamePlay
                 }
                 else if (Vector3.Dot(myDirection, transform.forward) < -0.9f) // Çarpışmaya arkamla giridm
                 {
-                    damage *= 4;
+                    damage *= data.BackMultiplier;
                 }
                 else // Çarpışma yanlarda 
                 {
                     if (Vector3.Dot(myDirection, transform.forward) <= -0.5) // Çarpışmaya arka yanımla girdim
                     {
-                        damage *= 2;
+                        damage *= data.SideBackMultiplier;
                     }
                     else if (Vector3.Dot(myDirection, transform.forward) > -0.5) // Çarpışmaya ön yanımla girdim
                     { 
@@ -69,11 +79,11 @@ namespace Sumo.GamePlay
 
         public float GetTrueForce(Vector3 direction)
         {
-            float multiplierForce = force;
+            float multiplierForce = _power;
             
             if (Vector3.Dot(direction, transform.forward) > 0.9f) // Çarpışmaya önümle girdim
             {
-                multiplierForce *= 2;
+                multiplierForce *= data.FrontMultiplier;
             }
 
             return multiplierForce;
@@ -92,6 +102,11 @@ namespace Sumo.GamePlay
             visualObjectTransform.rotation = Quaternion.Euler(Vector3.zero);
 
             OnHit = false;
+        }
+
+        public void Action() // Food yedik, gücü arttır
+        {
+            Power += data.PowerIncreaseCoefficient;
         }
     }
 }
