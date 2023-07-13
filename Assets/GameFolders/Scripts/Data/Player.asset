@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5fa4d17ed3c041bfbfb74b068a4760c, type: 3}
   m_Name: Player
   m_EditorClassIdentifier: 
-  startPower: 5
-  powerIncreaseCoefficient: 3
+  startPower: 1
+  powerIncreaseCoefficient: 0.1
   scoreIncreaseCoefficient: 10
   scaleIncreaseCoefficient: 0.25
   sideBackMultiplier: 2

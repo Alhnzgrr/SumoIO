@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using Sumo.Data;
 using Sumo.Interface;
+using Sumo.Movements;
 using UnityEngine;
 
 namespace Sumo.GamePlay
@@ -14,6 +15,7 @@ namespace Sumo.GamePlay
         
         private Rigidbody _rigidbody;
         private Transform _transform;
+        private Movement _movement;
         private Vector3 _direction;
         private Vector3 _rotationAxis;
 
@@ -31,6 +33,7 @@ namespace Sumo.GamePlay
         {
             _rigidbody = GetComponent<Rigidbody>();
             _transform = GetComponent<Transform>();
+            _movement = GetComponent<Movement>();
         }
 
         private void Start()
@@ -74,6 +77,8 @@ namespace Sumo.GamePlay
                 // Burada hesaplamalar sonucunda hasar alıcam
                 
                 _rigidbody.AddForce(-myDirection * damage, ForceMode.Impulse);
+
+                StartCoroutine(OnHitController());
             }
         }
 
@@ -91,17 +96,17 @@ namespace Sumo.GamePlay
 
         private IEnumerator OnHitController()
         {
-            OnHit = true;
+            _movement.CanMove = false;
             
-            _rotationAxis = new Vector3(_direction.z, 0f, -_direction.x);
-            Quaternion rotation = Quaternion.AngleAxis(tiltAngle, _rotationAxis);
-            visualObjectTransform.rotation *= rotation;
+            // _rotationAxis = new Vector3(_direction.z, 0f, -_direction.x);
+            // Quaternion rotation = Quaternion.AngleAxis(tiltAngle, _rotationAxis);
+            // visualObjectTransform.rotation *= rotation;
 
             yield return new WaitForSeconds(.5f);
 
-            visualObjectTransform.rotation = Quaternion.Euler(Vector3.zero);
+            //visualObjectTransform.rotation = Quaternion.Euler(Vector3.zero);
 
-            OnHit = false;
+            _movement.CanMove = true;
         }
 
         public void Action() // Food yedik, gücü arttır

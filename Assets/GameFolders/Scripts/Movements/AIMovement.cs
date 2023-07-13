@@ -28,7 +28,6 @@ namespace Sumo.Movements
             if (IsTargetNull)
             {
                 AssignNewTarget();
-                base.Update();
                 return;
             }
 
@@ -44,10 +43,10 @@ namespace Sumo.Movements
         {
             Collider[] attachedColliders = Physics.OverlapSphere(transform.position, maxTargetDistance * 2, layerMask);
 
-            if (attachedColliders != null)
-            {
-                _target = attachedColliders.OrderBy(x => Vector3.Distance(x.transform.position, transform.position)).FirstOrDefault()?.transform;
-            }
+            if (attachedColliders is not { Length: > 1 }) return;
+            
+            Collider[] orderedColliders = attachedColliders.OrderBy(x => Vector3.Distance(x.transform.position, transform.position)).ToArray();
+            _target = orderedColliders[1]?.transform;
         }
         
         protected override Vector3 CalculateDirection()

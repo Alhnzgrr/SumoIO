@@ -7,10 +7,14 @@ namespace Sumo.Movements
     {
         [SerializeField] protected float moveSpeed;
         [SerializeField] protected float turnSpeed;
+        [SerializeField] protected float gravityScale;
         
         protected Rigidbody rigidbody;
         protected Vector3 direction;
-        protected bool canMove;
+
+        protected Vector3 velocity;
+        
+        public bool CanMove { get; set; }
         
         protected virtual void Awake()
         {
@@ -19,19 +23,17 @@ namespace Sumo.Movements
 
         protected void Start()
         {
-            canMove = true;
+            CanMove = true;
         }
 
         protected virtual void FixedUpdate()
         {
-            if (!canMove) return;
-
             Move();
         }
         
         protected virtual void Update()
         {
-            if (!canMove) return;
+            if (!CanMove) return;
 
             direction = CalculateDirection();
             Rotate(direction);
@@ -39,7 +41,11 @@ namespace Sumo.Movements
 
         protected void Move()
         {
-            rigidbody.velocity = transform.forward * moveSpeed;
+            if (!CanMove) return;
+
+             velocity = transform.forward * moveSpeed;
+             velocity -= Vector3.down * gravityScale;
+             rigidbody.velocity = velocity;
         }
 
         protected virtual void Rotate(Vector3 direction)
