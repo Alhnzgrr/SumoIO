@@ -1,3 +1,4 @@
+using System;
 using Sumo.Core;
 using UnityEngine;
 
@@ -7,6 +8,28 @@ namespace Sumo.GamePlay
     {
         [SerializeField] private DynamicJoystick dynamicJoystick;
 
+        private void OnEnable()
+        {
+            DataManager.Instance.EventData.OnGameStart += OnGameStartHandler;
+            DataManager.Instance.EventData.OnGameEnd += OnGameEndHandler;
+        }
+
+        private void OnDisable()
+        {
+            DataManager.Instance.EventData.OnGameStart -= OnGameStartHandler;
+            DataManager.Instance.EventData.OnGameEnd -= OnGameEndHandler;
+        }
+
+        private void OnGameStartHandler()
+        {
+            dynamicJoystick.gameObject.SetActive(true);
+        }
+        
+        private void OnGameEndHandler()
+        {
+            dynamicJoystick.gameObject.SetActive(false);
+        }
+        
         public float GetHorizontal()
         {
             return dynamicJoystick.Horizontal;

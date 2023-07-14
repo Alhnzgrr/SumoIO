@@ -8,5 +8,8 @@ namespace Sumo.Data
     {
         public Action OnGameStart { get; set; }
         public Action OnGameEnd { get; set; }
+        public Action<string> OnEarnScore { get; set; }
+        public Action<string> OnSetUser { get; set; }
+
     }
 }

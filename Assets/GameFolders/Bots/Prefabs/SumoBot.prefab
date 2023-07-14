@@ -14,9 +14,10 @@ GameObject:
   - component: {fileID: 2045159365876209620}
   - component: {fileID: 2045159365876209621}
   - component: {fileID: 3998394808191986586}
+  - component: {fileID: 7555315843625129768}
   m_Layer: 10
   m_Name: SumoBot
-  m_TagString: Untagged
+  m_TagString: AI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -61,6 +62,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b40fbc1414ea3364c8b12680e03be5ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPlayer: 0
+  userName: 
   data: {fileID: 11400000, guid: 2c6f812bc841049fb832335d7bb5dd1b, type: 2}
   tiltAngle: 30
   visualObjectTransform: {fileID: 2045159367636444219}
@@ -79,7 +82,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!136 &2045159365876209621
 CapsuleCollider:
@@ -107,15 +110,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fd69c539b8a849d6ab7dacfe79a1ff1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 7
-  turnSpeed: 15
-  gravityScale: -10
-  outDistance: 15
-  maxTargetDistance: 10
+  moveSpeed: 5
+  turnSpeed: 25
+  gravityScale: -0.5
+  maxVelocity: 100
+  maxAngle: 45
+  outDistance: 10
+  maxTargetDistance: 5
   layerMask:
     serializedVersion: 2
     m_Bits: 3584
   searchTime: 0.1
+  borders: {x: 15, y: 15}
+--- !u!135 &7555315843625129768
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2045159365876209622}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 10
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2045159367636444220
 GameObject:
   m_ObjectHideFlags: 0

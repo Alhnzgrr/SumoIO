@@ -1,28 +1,43 @@
 using System;
 using Sumo.Core;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Sumo.UI
 {
     public class GameCanvas : MonoBehaviour
     {
-        [SerializeField] private Button playButton;
+        [SerializeField] private Button button;
+
+        private void Awake()
+        {
+            button.onClick.AddListener(TryAgainButtonOnClick);
+        }
+
+        private void Start()
+        {
+            button.gameObject.SetActive(false);
+        }
 
         private void OnEnable()
         {
-            playButton.onClick?.AddListener(PlayGame);
+            DataManager.Instance.EventData.OnGameEnd += OpenTryAgainButton;
         }
 
         private void OnDisable()
         {
-            playButton.onClick?.RemoveListener(PlayGame);
+            DataManager.Instance.EventData.OnGameEnd -= OpenTryAgainButton;
         }
 
-        private void PlayGame()
+        private void TryAgainButtonOnClick()
         {
-            DataManager.Instance.EventData.OnGameStart?.Invoke();
-            playButton.gameObject.SetActive(false);
+            SceneManager.LoadScene(0);
+        }
+
+        private void OpenTryAgainButton()
+        {
+            button.gameObject.SetActive(true);
         }
     }
 }

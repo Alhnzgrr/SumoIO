@@ -12,6 +12,8 @@ namespace Sumo.Player
         
         private void Update()
         {
+            if (!GameManager.Instance.Playabilty) return;
+                
             _horizontal = JoystickInput.Instance.GetHorizontal();
             _vertical = JoystickInput.Instance.GetVertical();
 

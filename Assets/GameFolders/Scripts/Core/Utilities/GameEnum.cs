@@ -5,3 +5,9 @@ public enum UpdateType
     Update,
     LatestUpdate
 }
+
+public enum GameState
+{
+    Pause,
+    Play
+}

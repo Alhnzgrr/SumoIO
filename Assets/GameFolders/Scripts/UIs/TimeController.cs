@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using Sumo.Core;
+using Sumo.GamePlay;
 using TMPro;
 using UnityEngine;
 
@@ -7,28 +9,42 @@ namespace Sumo.UI
 {
     public class TimeController : MonoBehaviour
     {
+        [SerializeField] private int startTime;
         [SerializeField] private float gameTime;
+        [SerializeField] private TMP_Text startTimeText; 
         [SerializeField] private TMP_Text timerText;
         [SerializeField] private GameObject timerPanel;
+        [SerializeField] private GameObject startTimerPanel;
 
+        private WaitForSeconds _waitOneSecond = new WaitForSeconds(1);
+        
         private float _gameTimeCountdown;
         private bool _isGamePlaying;
-
         private int _minutes;
         private int _seconds;
+        private int _currentTime;
 
         private void OnEnable()
         {
             DataManager.Instance.EventData.OnGameStart += StartGameHandler;
+            DataManager.Instance.EventData.OnGameEnd += EndMatch;
         }
 
         private void OnDisable()
         {
             DataManager.Instance.EventData.OnGameStart -= StartGameHandler;
+            DataManager.Instance.EventData.OnGameEnd -= EndMatch;
+        }
+
+        private void Start()
+        {
+            StartCoroutine(StartMatch());
         }
 
         private void Update()
         {
+            if (!GameManager.Instance.Playabilty) return;
+
             UpdateMatchTimer();
         }
 
@@ -52,7 +68,7 @@ namespace Sumo.UI
             
             if (_gameTimeCountdown <= 0)
             {
-                EndMatch();
+                DataManager.Instance.EventData.OnGameEnd?.Invoke();
             }
         }
 
@@ -60,6 +76,23 @@ namespace Sumo.UI
         {
             _isGamePlaying = false;
             timerPanel.SetActive(false);
+            startTimerPanel.SetActive(false);
+        }
+
+        private IEnumerator StartMatch()
+        {
+            _currentTime = startTime;
+            
+            while (_currentTime > 0)
+            {
+                startTimeText.text = $"{_currentTime}";
+                yield return _waitOneSecond;
+                _currentTime--;
+            }
+
+            startTimeText.text = string.Empty;
+            startTimerPanel.SetActive(false);
+            DataManager.Instance.EventData.OnGameStart?.Invoke();
         }
     }
 }

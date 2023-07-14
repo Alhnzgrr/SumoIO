@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5fa4d17ed3c041bfbfb74b068a4760c, type: 3}
   m_Name: AIHitData
   m_EditorClassIdentifier: 
-  startPower: 1
-  powerIncreaseCoefficient: 0.1
-  scoreIncreaseCoefficient: 10
-  scaleIncreaseCoefficient: 0.25
-  sideBackMultiplier: 2
-  frontMultiplier: 2
-  backMultiplier: 4
+  startPower: 8
+  powerIncreaseCoefficient: 2
+  scaleIncreaseCoefficient: 0.05
+  sideBackMultiplier: 1.2
+  frontMultiplier: 1.1
+  backMultiplier: 1.4
+  frontDefMultiplier: 0.9

@@ -45,6 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   foodPrefab: {fileID: 7562288225376462624, guid: cc334cada6ea5cc4f94d450e3e4a7f86, type: 3}
-  spawnArea: {x: -10, y: 10}
+  spawnArea: {x: -15, y: 15}
   spawnTimeRange: {x: 0.5, y: 5}
+  startAmount: 10
   maxFood: 25
+  offsetY: 1
