@@ -1,4 +1,4 @@
-using ConnectedFoods.Core;
+using Sumo.Core;
 using UnityEngine;
 
 namespace Sumo.GamePlay

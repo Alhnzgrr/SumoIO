@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace ConnectedFoods.Core
+namespace Sumo.Core
 {
     public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
     {
